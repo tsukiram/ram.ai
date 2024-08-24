@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ram-AI Website Generator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Ram-AI Website Generator</h1>
+        <form id="generate-form">
+            <label for="query">Enter your website idea:</label>
+            <input type="text" id="query" name="query" required>
+            <button type="submit">Generate Website</button>
+        </form>
+        <div id="progress-container">
+            <div id="progress-bar"></div>
+        </div>
+        <div id="status"></div>
+        <div id="result">
+            <h2 id="website-name"></h2>
+            <p id="description"></p>
+            <a id="download-link" href="/download" style="display:none;">Download Website</a>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

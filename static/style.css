@@ -1,0 +1,65 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 50%;
+    margin: 50px auto;
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    text-align: center;
+}
+
+#progress-container {
+    width: 100%;
+    background-color: #ddd;
+    margin-top: 20px;
+    height: 20px;
+    position: relative;
+}
+
+#progress-bar {
+    width: 0;
+    height: 100%;
+    background-color: #4caf50;
+}
+
+#status {
+    margin-top: 20px;
+    font-size: 1.2em;
+}
+
+#result {
+    margin-top: 20px;
+    display: none;
+}
+
+#website-name {
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+#description {
+    margin-top: 10px;
+}
+
+#download-link {
+    margin-top: 20px;
+    display: block;
+    text-align: center;
+    background-color: #4caf50;
+    color: white;
+    padding: 10px;
+    text-decoration: none;
+}
+
+#download-link:hover {
+    background-color: #45a049;
+}
