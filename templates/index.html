@@ -4,26 +4,85 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ram-AI Website Generator</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
-    <div class="container">
-        <h1>Ram-AI Website Generator</h1>
-        <form id="generate-form">
-            <label for="query">Enter your website idea:</label>
-            <input type="text" id="query" name="query" required>
-            <button type="submit">Generate Website</button>
-        </form>
-        <div id="progress-container">
-            <div id="progress-bar"></div>
-        </div>
-        <div id="status"></div>
-        <div id="result">
-            <h2 id="website-name"></h2>
-            <p id="description"></p>
-            <a id="download-link" href="/download" style="display:none;">Download Website</a>
-        </div>
+    <div class="App">
+        <header class="App-header">
+            <h1>🌙 Ram-AI Website Generator</h1>
+            <input type="text" id="websiteIdea" placeholder="Enter website idea">
+            <button id="generateBtn">Generate</button>
+
+            <div id="loading" class="loading" style="display: none;">
+                <div class="progress-bar">
+                    <div id="progress" class="progress" style="width: 0%"></div>
+                </div>
+                <p>Please wait, generating website files... <span id="progressText">0</span>%</p>
+            </div>
+
+            <div id="result" class="result" style="display: none;">
+                <h2>Website Generated Successfully!</h2>
+                <p><strong>Name:</strong> <span id="generatedName"></span></p>
+                <p><strong>Description:</strong> <span id="generatedDescription"></span></p>
+                <button id="downloadBtn">Download Website Files</button>
+            </div>
+        </header>
     </div>
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
+
+    <script>
+        const generateBtn = document.getElementById('generateBtn');
+        const downloadBtn = document.getElementById('downloadBtn');
+        const loading = document.getElementById('loading');
+        const result = document.getElementById('result');
+        const progress = document.getElementById('progress');
+        const progressText = document.getElementById('progressText');
+
+        generateBtn.addEventListener('click', async () => {
+            const websiteIdea = document.getElementById('websiteIdea').value;
+            if (!websiteIdea) return;
+
+            generateBtn.disabled = true;
+            loading.style.display = 'block';
+            result.style.display = 'none';
+
+            try {
+                const response = await fetch('/api/generate', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ query: websiteIdea }),
+                });
+
+                const data = await response.json();
+
+                document.getElementById('generatedName').textContent = data.name;
+                document.getElementById('generatedDescription').textContent = data.description;
+
+                result.style.display = 'block';
+            } catch (error) {
+                console.error('Error generating website:', error);
+            } finally {
+                generateBtn.disabled = false;
+                loading.style.display = 'none';
+            }
+        });
+
+        downloadBtn.addEventListener('click', () => {
+            window.location.href = '/api/download';
+        });
+
+        function updateProgress() {
+            fetch('/api/progress')
+                .then(response => response.json())
+                .then(data => {
+                    progress.style.width = `${data.progress}%`;
+                    progressText.textContent = data.progress;
+                })
+                .catch(error => console.error('Error fetching progress:', error));
+        }
+
+        setInterval(updateProgress, 1000);
+    </script>
 </body>
 </html>
